@@ -1,6 +1,6 @@
 import UIKit
 
-public struct Point {
+public class Point: NSObject {
     public let normalizedCenter: CGPoint
     public let color: UIColor
     public let selected: Bool
@@ -9,11 +9,5 @@ public struct Point {
         self.normalizedCenter = normalizedCenter
         self.color = color
         self.selected = selected
-    }
-}
-
-extension Point: Equatable {
-    public static func == (_ lhs: Point, _ rhs: Point) -> Bool {
-        return lhs.normalizedCenter == rhs.normalizedCenter
     }
 }
