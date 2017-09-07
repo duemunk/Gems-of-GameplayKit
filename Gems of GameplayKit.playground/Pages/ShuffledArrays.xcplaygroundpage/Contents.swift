@@ -16,8 +16,7 @@ extension Array {
 }
 //#-end-hidden-code
 
-func orderedViews(includeText: Bool = true) -> [UIView] {
-    let count = 10
+func orderedViews(count: Int = 10, includeText: Bool = true) -> [UIView] {
     return (0..<count).map {
         let label = UILabel()
         let ratio = CGFloat($0) / CGFloat(count) * 0.8 + 0.2
@@ -87,6 +86,17 @@ extension Array {
     func betterShuffled(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) -> [Element] {
         return source.arrayByShufflingObjects(in: self) as! [Element]
     }
+
+    /// Returns an array with the contents of this sequence, perceived shuffled.
+    func perceivedShuffled(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) -> [Element] {
+        let distribution = GKShuffledDistribution(randomSource: source, lowestValue: 0, highestValue: count - 1)
+        var shuffledArray: [Element] = []
+        while shuffledArray.count < count {
+            let index = distribution.nextInt()
+            shuffledArray.append(self[index])
+        }
+        return shuffledArray
+    }
 }
 
 /*:
@@ -94,16 +104,21 @@ extension Array {
  */
 
 func createSource(seed: Int) -> GKRandomSource {
-    //let source = GKMersenneTwisterRandomSource(seed: 101)
     return GKARC4RandomSource(seed: "\(seed)".data(using: .utf8)!)
 }
 
+
+
 let seed = 2
+let count = 6
 stacksViewController.views = [
-    orderedViews(),
-    orderedViews().shuffled(source: createSource(seed: seed)),
-    orderedViews().betterShuffled(source: createSource(seed: seed)),
+    orderedViews(count: count),
+    orderedViews(count: count).shuffled(source: createSource(seed: seed)),
+    orderedViews(count: count).betterShuffled(source: createSource(seed: seed)),
+    orderedViews(count: count).perceivedShuffled(source: createSource(seed: seed))
+
     /* Other distributions */
+
 //    orderedViews().betterShuffled(source: GKMersenneTwisterRandomSource(seed: numericCast(seed))),
 //    orderedViews().betterShuffled(source: GKLinearCongruentialRandomSource(seed: numericCast(seed)))
 ]
@@ -114,17 +129,20 @@ stacksViewController.views = [
 /* Screenshots for talk */
 do {
     let seed = 2
+    let count = 10
     let size = CGSize(width: 800, height: 600)
     StacksViewController(views: [
-        orderedViews(includeText: false),
-        orderedViews(includeText: false).shuffled(source: createSource(seed: seed)),
-        orderedViews(includeText: false).betterShuffled(source: createSource(seed: seed)),
+        orderedViews(count: count, includeText: false),
+//        orderedViews(includeText: false).shuffled(source: createSource(seed: seed)),
+        orderedViews(count: count, includeText: false).betterShuffled(source: createSource(seed: seed)),
+        orderedViews(count: count, includeText: false).perceivedShuffled(source: createSource(seed: seed)),
     ]).save(filename: "ShuffledArraysEmpty", size: size)
 
     StacksViewController(views: [
-        orderedViews(includeText: true),
-        orderedViews(includeText: true).shuffled(source: createSource(seed: seed)),
-        orderedViews(includeText: true).betterShuffled(source: createSource(seed: seed)),
+        orderedViews(count: count, includeText: true),
+//        orderedViews(includeText: true).shuffled(source: createSource(seed: seed)),
+        orderedViews(count: count, includeText: true).betterShuffled(source: createSource(seed: seed)),
+        orderedViews(count: count, includeText: true).perceivedShuffled(source: createSource(seed: seed))
     ]).save(filename: "ShuffledArrays", size: size)
 }
 

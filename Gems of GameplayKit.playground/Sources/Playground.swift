@@ -19,6 +19,7 @@ extension UIView {
         let url = playgroundSharedDataDirectory.appendingPathComponent(filename + ".png")
         do {
             try data?.write(to: url)
+            print("Saved to", url)
         } catch {
             print("Failed to save to file", filename, error)
         }
@@ -31,9 +32,10 @@ extension UIViewController {
             view.frame.size = size
         }
         let data = UIImagePNGRepresentation(snapshot)
-        let url = playgroundSharedDataDirectory.appendingPathComponent(filename)
+        let url = playgroundSharedDataDirectory.appendingPathComponent(filename + ".png")
         do {
             try data?.write(to: url)
+            print("Saved to", url)
         } catch {
             print("Failed to save to file", filename, error)
         }
