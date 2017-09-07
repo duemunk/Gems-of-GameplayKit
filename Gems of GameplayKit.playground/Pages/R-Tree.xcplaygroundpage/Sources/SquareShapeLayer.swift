@@ -16,6 +16,6 @@ public class SquareShapeLayer: CAShapeLayer {
             width: normalizedRect.width * bounds.width,
             height: normalizedRect.height * bounds.height
         )
-        self.path = CGPath.init(roundedRect: rect, cornerWidth: 0, cornerHeight: 0, transform: nil)
+        self.path = CGPath(roundedRect: rect, cornerWidth: 0, cornerHeight: 0, transform: nil)
     }
 }
