@@ -84,18 +84,8 @@ extension Sequence {
 extension Array {
     /// Returns an array with the contents of this sequence, shuffled.
     func betterShuffled(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) -> [Element] {
+//        return (self as NSArray).shuffled(using: source) as! [Element]
         return source.arrayByShufflingObjects(in: self) as! [Element]
-    }
-
-    /// Returns an array with the contents of this sequence, perceived shuffled.
-    func perceivedShuffled(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) -> [Element] {
-        let distribution = GKShuffledDistribution(randomSource: source, lowestValue: 0, highestValue: count - 1)
-        var shuffledArray: [Element] = []
-        while shuffledArray.count < count {
-            let index = distribution.nextInt()
-            shuffledArray.append(self[index])
-        }
-        return shuffledArray
     }
 }
 
@@ -115,7 +105,6 @@ stacksViewController.views = [
     orderedViews(count: count),
     orderedViews(count: count).shuffled(source: createSource(seed: seed)),
     orderedViews(count: count).betterShuffled(source: createSource(seed: seed)),
-    orderedViews(count: count).perceivedShuffled(source: createSource(seed: seed))
 
     /* Other distributions */
 
@@ -133,16 +122,14 @@ do {
     let size = CGSize(width: 800, height: 600)
     StacksViewController(views: [
         orderedViews(count: count, includeText: false),
-//        orderedViews(includeText: false).shuffled(source: createSource(seed: seed)),
+        orderedViews(includeText: false).shuffled(source: createSource(seed: seed)),
         orderedViews(count: count, includeText: false).betterShuffled(source: createSource(seed: seed)),
-        orderedViews(count: count, includeText: false).perceivedShuffled(source: createSource(seed: seed)),
     ]).save(filename: "ShuffledArraysEmpty", size: size)
 
     StacksViewController(views: [
         orderedViews(count: count, includeText: true),
-//        orderedViews(includeText: true).shuffled(source: createSource(seed: seed)),
+        orderedViews(includeText: true).shuffled(source: createSource(seed: seed)),
         orderedViews(count: count, includeText: true).betterShuffled(source: createSource(seed: seed)),
-        orderedViews(count: count, includeText: true).perceivedShuffled(source: createSource(seed: seed))
     ]).save(filename: "ShuffledArrays", size: size)
 }
 
