@@ -54,7 +54,7 @@ extension MutableCollection {
     }
 
     /// Shuffles the contents of this collection.
-    mutating func shuffle(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) {
+    mutating func shuffle(source: GKRandomSource = GKRandomSource.sharedRandom()) {
         let c = count
         guard c > 1 else { return }
 
@@ -69,7 +69,7 @@ extension MutableCollection {
 
 extension Sequence {
     /// Returns an array with the contents of this sequence, shuffled.
-    func shuffled(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) -> [Element] {
+    func shuffled(source: GKRandomSource = .sharedRandom()) -> [Element] {
         var result = Array(self)
         result.shuffle(source: source)
         return result
@@ -83,7 +83,7 @@ extension Sequence {
 
 extension Array {
     /// Returns an array with the contents of this sequence, shuffled.
-    func betterShuffled(source: GKRandomSource = GKARC4RandomSource.sharedRandom()) -> [Element] {
+    func betterShuffled(source: GKRandomSource = .sharedRandom()) -> [Element] {
 //        return (self as NSArray).shuffled(using: source) as! [Element]
         return source.arrayByShufflingObjects(in: self) as! [Element]
     }
@@ -93,10 +93,12 @@ extension Array {
  ---
  */
 
+
 func createSource(seed: Int) -> GKRandomSource {
     return GKARC4RandomSource(seed: "\(seed)".data(using: .utf8)!)
 }
 
+([1, 2, 3] as NSArray).shuffled()
 
 
 let seed = 2
