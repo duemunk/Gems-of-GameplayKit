@@ -26,7 +26,11 @@ public class RubberbandViewController: UIViewController {
         }
     }
 
-    private let pointCloud = PointLayer()
+    private let pointCloud: PointLayer = {
+        let layer = PointLayer()
+        layer.contentsScale = UIScreen.main.scale
+        return layer
+    }()
     private let rubberBandLayer: SquareShapeLayer = {
         let layer = SquareShapeLayer()
         layer.lineWidth = 2
