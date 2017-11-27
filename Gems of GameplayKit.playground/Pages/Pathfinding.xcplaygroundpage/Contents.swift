@@ -47,7 +47,8 @@ viewController.accent = .accent
 viewController.primary = .primary
 viewController.secondary = .secondary
 viewController.background = UIColor.background.withAlphaComponent(0.5)
-Playground.present(viewController: viewController)
+let size = CGSize(width: 700, height: 525)
+Playground.present(viewController: viewController, size: size)
 
 let left = 12.564
 let right = 12.573
@@ -174,7 +175,6 @@ viewController.didLongPress = { (coordinate: CLLocationCoordinate2D) in
 
 /* Screenshots for talk */
 do {
-    let size = CGSize(width: 700, height: 525)
     let map = viewController
 
     // Empty
@@ -185,19 +185,19 @@ do {
     map.background = nil
 
     map.didFinishRendering = { fully in
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             map.save(filename: "PathFindingEmpty", size: size)
 
             // With background drop
             map.background = UIColor.background.withAlphaComponent(0.75)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 map.save(filename: "PathFindingOverlay", size: size)
 
                 // With obstacles
                 map.obstacles = overlayPolygons
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     map.save(filename: "PathFindingObstacles", size: size)
 
                     // With from and to pins
@@ -206,12 +206,12 @@ do {
                     map.to = to1
                     map.from = from1
 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         map.save(filename: "PathFindingFromTo", size: size)
 
                         let path1 = pathFinding.path(from: from1, to: to1)
                         map.path = MKPolyline(coordinates: path1, count: path1.count)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             map.save(filename: "PathFinding1", size: size)
 
                             let from2 = CLLocationCoordinate2D(latitude: 55.6742, longitude: 12.5701)
